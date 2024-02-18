@@ -1,66 +1,61 @@
 {% extends 'base.html' %}
-
 {% block title %}Home{% endblock title %}
-
 {% block content %}
 
-<div class="container-fluid">
+<div class="table-responsive">
+  <div class="table table-responsive">
     <table class="table table-hover">
         <thead>
             <tr>
-                <th scope="col">Data</th>
-                <th scope="col">Titulo</th>
-                <th scope="col">Numero</th>
-                <th scope="col">Descrição</th>
-                <th scope="col">Elementos</th>
-                <th scope="col">Porta</th>
-                <th scope="col">Imagem</th>
+                <th class="align-top" scope="col" width="10">Id</th>
+                <th class="align-top" scope="col" width="50">Titulo</th>
+                <th class="align-top" scope="col" width="50">Numero</th>
+                <th class="align-top" scope="col" width="200">Descrição</th>
+                <th class="align-top" scope="col" width="10">Porta</th>
+                <th class="align-top" scope="col" >Imagem</th>
             </tr>
         </thead>
         <tbody>
         {% for cat in home %}
-            <tr>
-                <td>{{cat.criado_em}}</td>
-                <td>{{cat.titulo}}</td>
-                <td>{{cat.numero}}</td>
-                <td>{{cat.descricao}}</td>
-                <td>{{cat.elementos}}</td>
-                <td>{{cat.portas}}</td>
-                <td>
+           <tr>
+                <td class="align-baseline" width="10" height="10">{{cat.id}}</td>
+                <td class="align-baseline" width="50" height="50">{{cat.titulo}}</td>
+                <td class="align-baseline" width="50" height="50">{{cat.numero}}</td>
+                <td class="align-baseline" width="200" height="200">{{cat.descricao}}</td>
+                <td class="align-baseline" width="10" height="10">{{cat.portas}}</td>
+                <td class="align-baseline" width="300" height="300">
                     <a href="{{ cat.image.url }}" target="_blank">
-                        <img src="{{ cat.image.url }}" alt="" class="img-fluid" style="height: 50px; object-fit: cover;">
+                        <img src="{{ cat.image.url }}" alt="" class="img-fluid" style="height: 300px; object-fit: cover;">
                     </a>
                 </td>
             </tr>
         {% endfor %} 
         </tbody>
     </table>
+  </div>
 
-<nav aria-label="Page navigation example">
+  <nav aria-label="Page navigation example">
     {% if is_paginated %}
     <ul class="pagination">
         {% if page_obj.has_previous %}
         <li><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
-        {% else %}
-        <li class="page-link" ><span>&laquo;</span></li>
         {% endif %}
-        {% for i in paginator.page_range %}
-        {% if page_obj.number == i %}
-            <li class="page-link" ><span>{{ i }} <span class="sr-only"></span></span></li>
-        {% else %}
-            <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-        {% endif %}
+        {% for i in page_obj.paginator.page_range %}
+            {% if page_obj.number == i %}
+                <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+            {% else %}
+                {% if forloop.counter <= 3 %}
+                    <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endif %}
         {% endfor %}
-        {% if page_obj.has_next %}
-        <li><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
-        {% else %}
-        <li class="page-link"><span>&raquo;</span></li>
+        {% if page_obj.paginator.num_pages > 3 %}
+            <li><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next &raquo;</a></li>
         {% endif %}
     </ul>
     {% endif %}
-</nav>
+  </nav>
 
 </div>
-
 
 {% endblock %}
