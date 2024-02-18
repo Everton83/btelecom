@@ -36,7 +36,7 @@
 
   <nav aria-label="Page navigation example">
     {% if is_paginated %}
-    <ul class="pagination">
+    <ul class="pagination justify-content-center">
         {% if page_obj.has_previous %}
         <li><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
         {% endif %}
@@ -55,7 +55,6 @@
     </ul>
     {% endif %}
   </nav>
-
 </div>
 
 {% endblock %}
