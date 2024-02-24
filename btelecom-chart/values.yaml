@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: btelecom
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "0.1"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -96,3 +96,28 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+podSpec:
+  containers:
+    - name: {{ .Chart.Name }}
+      image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+      imagePullPolicy: {{ .Values.image.pullPolicy }}
+      ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+      env:
+        - name: DJANGO_SECRET_KEY
+          value: "django-insecure-j)mqy_c^ti0tkuz(yvfx*-$eteoen#1(l&y&vg&kn%k4$g@5y+"
+        - name: MYSQL_ENGINE
+          value: "django.db.backends.mysql"
+        - name: MYSQL_DATABASE
+          value: "bezerratelecom"
+        - name: MYSQL_USER
+          value: "dbadmin"
+        - name: MYSQL_PASSWORD
+          value: "QDVqrPJ&6wt1YqCe"
+        - name: MYSQL_HOST
+          value: "localhost"
+        - name: MYSQL_PORT
+          value: "3306"
